@@ -1,0 +1,10 @@
+projection ;
+
+define behavior for ZC_TRAVEL_M_124 alias TravelProcessor
+use etag
+{
+  use create;
+  use update;
+  use delete;
+  use action acceptTravel;
+}

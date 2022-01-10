@@ -1,0 +1,9 @@
+@EndUserText.label: 'service definition'
+define service ZUI_RAP_TRAVEL_M_124 {
+  expose ZC_TRAVEL_M_124;
+  expose /DMO/I_Customer as Passenger;
+  expose /DMO/I_Agency as TravelAgency;
+  expose /DMO/I_Airport as Airport;
+  expose I_Currency as Currency;
+  expose I_Country as Country;
+}
