@@ -1,0 +1,63 @@
+managed implementation in class zbp_cal_i_mcal_all_124 unique;
+strict;
+with draft;
+
+define behavior for ZCAL_I_MCAL_ALL_124 alias HolidayAll
+with unmanaged save
+//persistent table <???>
+lock master total etag LastChangedAtMax
+authorization master ( global )
+draft table zcal_x_cal_a_124
+//etag master <field_name>
+{
+  update;
+  draft action Activate;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+  association _Holiday { create; with draft; }
+}
+
+define behavior for zcal_i_mcal_124 alias HolidayRoot
+persistent table zcal_holiday_124
+draft table zcal_d_cal_124
+lock dependent by _HolidayAll
+authorization dependent by _HolidayAll
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) HolidayAllID;
+  field ( readonly : update ) Holiday;
+  association _HolidayAll { with draft; }
+  association _HolidayTxt { create; with draft; }
+  mapping for zcal_holiday_124 corresponding
+  {
+    Holiday = holiday_id;
+    HolidayDay = day_of_holiday;
+    HolidayMonth = month_of_holiday;
+  }
+}
+
+define behavior for zcal_i_mcal_txt_124 alias HolidayText
+lock dependent by _HolidayAll
+authorization dependent by _HolidayAll
+persistent table zcal_holtxt_124
+draft table zcal_d_txt_124
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly : update ) Holiday;
+  field ( readonly : update ) Language;
+  field ( readonly ) HolidayAllID;
+  association _HolidayAll { with draft; }
+  association _Public_Holiday { with draft; }
+  mapping for zcal_holtxt_124 corresponding
+  {
+    Language = spras;
+    Holiday = holiday_id;
+    HolidayDescription = fcal_description;
+  }
+}

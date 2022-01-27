@@ -1,0 +1,31 @@
+projection implementation in class zbp_cal_c_mcal_all_124 unique;
+strict;
+use draft;
+
+define behavior for ZCAL_C_MCAL_ALL_124 alias HolidayAll
+{
+  use action Activate;
+  use action Discard;
+  use action Edit;
+  use action Prepare;
+  use action Resume;
+  use association _Holiday { create(augment); with draft; }
+}
+
+define behavior for ZCAL_C_MCAL_124 alias HolidayRoot
+{
+  use update(augment);
+  use delete;
+
+  use association _HolidayAll { with draft; }
+  use association _HolidayTxt { create; with draft; }
+}
+
+define behavior for ZCAL_C_MCAL_TXT_124 alias HolidayText
+{
+  use update;
+  use delete;
+
+  use association _HolidayAll { with draft; }
+  use association _Public_Holiday { with draft; }
+}
